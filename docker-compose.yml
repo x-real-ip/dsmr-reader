@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+
+  prd-dsmr-reader-app:
+    image: xirixiz/dsmr-reader-docker:latest
+    container_name: prd-dsmr-reader-app
+    depends_on:
+      - prd-dsmr-reader-db
+    cap_add:
+      - NET_ADMIN
+    restart: always
+    env_file: prd-dsmr-reader-app.env
+    ports:
+      - 7777:80
+      - 7779:443
+    networks:
+      home-services:
+    volumes:
+      - ./dsmr_backups:/dsmr/backups
+    devices:
+      - /dev/ttyUSB1:/dev/ttyUSB1
+
+  prd-dsmr-reader-db:
+    image: postgres:12
+    container_name: prd-dsmr-reader-db
+    restart: always
+    env_file: prd-dsmr-reader-db.env
+    networks:
+      home-services:
+    volumes:
+      - ./dsmrdb:/var/lib/postgresql/data
+
+# NETWORKS
+networks:
+
+  home-services:
+    driver: bridge
+    name: home-services
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
