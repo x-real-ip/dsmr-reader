@@ -2,7 +2,7 @@ version: '3.8'
 services:
 
   prd-dsmr-reader-app:
-    image: xirixiz/dsmr-reader-docker:latest
+    image: docker-registry.theautomation.nl/coen/prd-dsmr-reader-app:latest
     container_name: prd-dsmr-reader-app
     depends_on:
       - prd-dsmr-reader-db
@@ -21,7 +21,7 @@ services:
       - /dev/ttyUSB1:/dev/ttyUSB1
 
   prd-dsmr-reader-db:
-    image: postgres:12
+    image: docker-registry.theautomation.nl/coen/prd-dsmr-reader-db:latest
     container_name: prd-dsmr-reader-db
     restart: always
     env_file: prd-dsmr-reader-db.env
