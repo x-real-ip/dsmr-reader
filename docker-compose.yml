@@ -13,7 +13,6 @@ services:
     env_file: prd-dsmr-reader-app.env
     ports:
       - 7777:80
-      - 7779:443
     networks:
       home-services:
     volumes:
