@@ -1,7 +1,4 @@
 ---
-ignore: |
-  /config/AdGuardHome.yaml
-
 rules:
   braces: enable
   brackets: enable
