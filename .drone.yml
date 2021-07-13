@@ -20,9 +20,6 @@ kind: pipeline
 type: docker
 name: build
 
-depends_on:
-  - validate
-
 steps:
   - name: publish app
     image: plugins/docker
@@ -54,7 +51,7 @@ type: docker
 name: upgrade
 
 depends_on:
-  - build
+  - validate
 
 steps:
   - name: upgrade
