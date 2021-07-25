@@ -4,7 +4,7 @@ I am using a wifi smartreader from [Marcel Zuidwijk](https://www.zuidwijk.com/sl
 
 ## installation
 
-### 1. download .bin file from zuiwijk.com
+### 1. download .bin file from zuidwijk.com
 
 https://www.zuidwijk.com/download/esp-link-precompiled-3-2-47/
 
@@ -27,7 +27,7 @@ After installing, you will have `esptool.py` installed into the default Python e
 
 ### 3. Flash the ESP device
 
-Check witch path the device is using
+Check which path the device is using
 
 ```bash
 #!/bin/bash
