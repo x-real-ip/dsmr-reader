@@ -17,8 +17,6 @@ services:
       home-services:
     volumes:
       - ./dsmr_backups:/dsmr/backups
-    devices:
-      - /dev/ttyUSB1:/dev/ttyUSB1
 
   prd-dsmr-reader-db:
     image: docker-registry.theautomation.nl/coen/prd-dsmr-reader-db:latest
