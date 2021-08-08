@@ -1,7 +1,6 @@
 ---
-version: '3.8'
+version: "3.8"
 services:
-
   prd-dsmr-reader-app:
     image: docker-registry.theautomation.nl/coen/prd-dsmr-reader-app:latest
     container_name: prd-dsmr-reader-app
@@ -11,8 +10,6 @@ services:
       - NET_ADMIN
     restart: always
     env_file: prd-dsmr-reader-app.env
-    ports:
-      - 7777:80
     networks:
       home-services:
     volumes:
@@ -30,7 +27,6 @@ services:
 
 # NETWORKS
 networks:
-
   home-services:
     driver: bridge
     name: home-services
