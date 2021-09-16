@@ -10,6 +10,8 @@ services:
       - NET_ADMIN
     restart: always
     env_file: prd-dsmr-reader-app.env
+    ports:
+      - 7777:80
     networks:
       home-services:
     volumes:
