@@ -10,10 +10,10 @@ services:
       - NET_ADMIN
     restart: always
     env_file: prd-dsmr-reader-app.env
-    ports:
-      - 7777:80
     networks:
-      home-services:
+      - reverse-proxy
+      - dsmr-reader
+      - mosquitto
     volumes:
       - ./dsmr_backups:/dsmr/backups
 
@@ -23,15 +23,18 @@ services:
     restart: always
     env_file: prd-dsmr-reader-db.env
     networks:
-      home-services:
+      - dsmr-reader
     volumes:
       - ./dsmrdb:/var/lib/postgresql/data
 
-# NETWORKS
 networks:
-  home-services:
+  dsmr-reader:
+    name: dsmr-reader
     driver: bridge
-    name: home-services
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.25.0.0/16
+  reverse-proxy:
+    name: reverse-proxy
+  mosquitto:
+    name: mosquitto
