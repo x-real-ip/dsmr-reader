@@ -28,13 +28,13 @@ services:
       - ./dsmrdb:/var/lib/postgresql/data
 
 networks:
+  reverse-proxy:
+    name: reverse-proxy
+  mosquitto:
+    name: mosquitto
   dsmr-reader:
     name: dsmr-reader
     driver: bridge
     ipam:
       config:
         - subnet: 172.25.0.0/16
-  reverse-proxy:
-    name: reverse-proxy
-  mosquitto:
-    name: mosquitto
