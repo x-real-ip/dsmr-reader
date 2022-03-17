@@ -52,6 +52,7 @@ name: upgrade
 
 depends_on:
   - validate
+  - build
 
 steps:
   - name: upgrade
