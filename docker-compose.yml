@@ -13,7 +13,6 @@ services:
     ports:
       - 7777:80
     networks:
-      - reverse-proxy
       - dsmr-reader
       - mosquitto
     volumes:
@@ -30,8 +29,6 @@ services:
       - ./dsmrdb:/var/lib/postgresql/data
 
 networks:
-  reverse-proxy:
-    name: reverse-proxy
   mosquitto:
     name: mosquitto
   dsmr-reader:
