@@ -1,0 +1,104 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dsmr-reader
+  labels:
+    app: dsmr-reader
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dsmr-reader
+  template:
+    metadata:
+      labels:
+        app: dsmr-reader
+    spec:
+      containers:
+        - name: dsmr-reader
+          image: "xirixiz/dsmr-reader-docker:amd64-5.3.0-2022.06.01"
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: "DJANGO_DATABASE_NAME"
+              value: "dsmr-reader"
+            - name: "DJANGO_DATABASE_PASSWORD"
+              value: "dsmr-reader-pass"
+            - name: "DJANGO_DATABASE_PORT"
+              value: "5432"
+            - name: "DJANGO_DATABASE_USER"
+              value: "dsmr-reader"
+            - name: "DJANGO_TIME_ZONE"
+              value: "Europe/Amsterdam"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dsmr-reader
+  labels:
+    app: dsmr-reader
+  annotations:
+spec:
+  selector:
+    app: dsmr-reader
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: dsmr-reader.k8s.lan
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: dsmr-reader
+                port:
+                  number: 80
