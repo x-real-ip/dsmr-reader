@@ -346,7 +346,6 @@ metadata:
   namespace: home-automation
   labels:
     app: dsmr-reader
-  annotations:
 spec:
   selector:
     app: dsmr-reader
