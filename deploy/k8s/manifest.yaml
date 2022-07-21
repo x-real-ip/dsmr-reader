@@ -108,7 +108,7 @@ spec:
     spec:
       containers:
         - name: dsmr-reader
-          image: "xirixiz/dsmr-reader-docker:amd64-5.4.0-2022.07.02"
+          image: "xirixiz/dsmr-reader-docker:amd64-5.5.0-2022.07.02"
           imagePullPolicy: IfNotPresent
           resources: {}
           ports:
