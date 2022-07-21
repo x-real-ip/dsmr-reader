@@ -87,102 +87,6 @@ spec:
         app: dsmr-reader
 
 ---
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: dsmr-reader
-  namespace: home-automation
-  labels:
-    app: dsmr-reader
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: dsmr-reader
-  template:
-    metadata:
-      labels:
-        app: dsmr-reader
-    spec:
-      containers:
-        - name: dsmr-reader
-          image: "xirixiz/dsmr-reader-docker:amd64-5.5.0-2022.07.02"
-          imagePullPolicy: IfNotPresent
-          resources: {}
-          ports:
-            - containerPort: 80
-              protocol: TCP
-          env:
-            - name: "DJANGO_DATABASE_USER"
-              value: "dsmrreader"
-            - name: "DJANGO_DATABASE_NAME"
-              value: "dsmrreader"
-            - name: "DJANGO_DATABASE_PORT"
-              value: "5432"
-            - name: "DJANGO_DATABASE_HOST"
-              value: "dsmr-reader-postgresql-hl.home-automation.svc.cluster.local"
-            - name: "DJANGO_TIME_ZONE"
-              value: "Europe/Amsterdam"
-            - name: "TZ"
-              value: "Europe/Amsterdam"
-            - name: "DUID"
-              value: "1000"
-            - name: "DGID"
-              value: "1000"
-            - name: "VACUUM_DB_ON_STARTUP"
-              value: "false"
-            - name: "DSMRREADER_ADMIN_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: dsmr-reader
-                  key: admin-user
-            - name: "DSMRREADER_ADMIN_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: dsmr-reader
-                  key: admin-password
-            - name: "DJANGO_DATABASE_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: dsmr-reader
-                  key: database-password
-            - name: "SECRET_KEY"
-              valueFrom:
-                secretKeyRef:
-                  name: dsmr-reader
-                  key: secret-key
-          livenessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          startupProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 0
-            failureThreshold: 30
-            timeoutSeconds: 1
-            periodSeconds: 5
-          volumeMounts:
-            - name: backups
-              mountPath: /app/backups
-      volumes:
-        - name: backups
-          persistentVolumeClaim:
-            claimName: pvc-nfs-dsmr-reader-backups
-
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -317,6 +221,101 @@ spec:
         resources:
           requests:
             storage: "10Gi"
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dsmr-reader
+  template:
+    metadata:
+      labels:
+        app: dsmr-reader
+    spec:
+      containers:
+        - name: dsmr-reader
+          image: "xirixiz/dsmr-reader-docker:amd64-5.5.0-2022.07.02"
+          resources: {}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: "DJANGO_DATABASE_USER"
+              value: "dsmrreader"
+            - name: "DJANGO_DATABASE_NAME"
+              value: "dsmrreader"
+            - name: "DJANGO_DATABASE_PORT"
+              value: "5432"
+            - name: "DJANGO_DATABASE_HOST"
+              value: "dsmr-reader-postgresql-hl.home-automation.svc.cluster.local"
+            - name: "DJANGO_TIME_ZONE"
+              value: "Europe/Amsterdam"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+            - name: "DUID"
+              value: "1000"
+            - name: "DGID"
+              value: "1000"
+            - name: "VACUUM_DB_ON_STARTUP"
+              value: "false"
+            - name: "DSMRREADER_ADMIN_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: admin-user
+            - name: "DSMRREADER_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: admin-password
+            - name: "DJANGO_DATABASE_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: database-password
+            - name: "SECRET_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: secret-key
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: backups
+              mountPath: /app/backups
+      volumes:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: pvc-nfs-dsmr-reader-backups
 
 ---
 kind: Service
