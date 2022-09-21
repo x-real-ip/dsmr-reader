@@ -94,7 +94,6 @@ metadata:
   namespace: home-automation
   labels:
     app: dsmr-reader-postgresql
-  annotations:
 spec:
   replicas: 1
   serviceName: dsmr-reader-postgresql-hl
@@ -109,7 +108,6 @@ spec:
       name: dsmr-reader-postgresql
       labels:
         app: dsmr-reader-postgresql
-      annotations:
     spec:
       serviceAccountName: default
       affinity:
@@ -129,7 +127,6 @@ spec:
         fsGroup: 1000
       hostNetwork: false
       hostIPC: false
-      initContainers:
       containers:
         - name: postgresql
           image: docker.io/bitnami/postgresql:14.2.0-debian-10-r77
