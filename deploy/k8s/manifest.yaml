@@ -360,8 +360,6 @@ metadata:
   namespace: home-automation
   labels:
     app: dsmr-reader
-  annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
 spec:
   ingressClassName: nginx-private
   rules:
@@ -375,3 +373,7 @@ spec:
                 name: dsmr-reader
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - dsmr-reader.k8s.lan
+      secretName: tls-wildcard-k8s-lan
