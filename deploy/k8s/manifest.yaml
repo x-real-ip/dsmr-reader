@@ -16,7 +16,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-dsmr-reader-db
     volumeAttributes:
-      portal: storage-server.lan:3260
+      portal: storage-server-lagg.lan:3260
       iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db
       lun: "0"
       node_attach_driver: iscsi
@@ -44,7 +44,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-dsmr-reader-backups
     volumeAttributes:
-      server: storage-server.lan
+      server: storage-server-lagg.lan
       share: /mnt/r10_8tb/k8s/dsmr-reader-backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -96,6 +96,8 @@ metadata:
     app: dsmr-reader-postgresql
 spec:
   replicas: 1
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
   serviceName: dsmr-reader-postgresql-hl
   updateStrategy:
     rollingUpdate: {}
