@@ -243,7 +243,7 @@ spec:
     spec:
       containers:
         - name: dsmr-reader
-          image: "xirixiz/dsmr-reader-docker:latest"
+          image: "xirixiz/dsmr-reader-docker:amd64-5.9.0-2022.11.03"
           resources: {}
           ports:
             - containerPort: 80
