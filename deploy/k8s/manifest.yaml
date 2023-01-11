@@ -136,30 +136,6 @@ spec:
           securityContext:
             runAsUser: 1000
           env:
-            - name: BITNAMI_DEBUG
-              value: "false"
-            - name: POSTGRESQL_PORT_NUMBER
-              value: "5432"
-            - name: POSTGRESQL_VOLUME_DIR
-              value: "/bitnami/postgresql"
-            - name: PGDATA
-              value: "/bitnami/postgresql/data"
-            - name: POSTGRESQL_ENABLE_LDAP
-              value: "no"
-            - name: POSTGRESQL_ENABLE_TLS
-              value: "no"
-            - name: POSTGRESQL_LOG_HOSTNAME
-              value: "true"
-            - name: POSTGRESQL_LOG_CONNECTIONS
-              value: "true"
-            - name: POSTGRESQL_LOG_DISCONNECTIONS
-              value: "true"
-            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
-              value: "off"
-            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
-              value: "error"
-            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
-              value: "pgaudit"
             - name: POSTGRESQL_DATABASE
               value: "dsmrreader"
             - name: POSTGRESQL_USERNAME
@@ -241,6 +217,13 @@ spec:
       labels:
         app: dsmr-reader
     spec:
+      initContainers:
+        - name: postgresql-isready
+          image: bitnami/postgresql:14.5.0
+          command:
+            - "sh"
+            - "-c"
+            - until pg_isready -h dsmr-reader-postgresql-hl -U dsmrreader ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
           image: "xirixiz/dsmr-reader-docker:amd64-5.9.0-2022.11.03"
