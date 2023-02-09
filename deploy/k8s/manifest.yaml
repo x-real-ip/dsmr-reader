@@ -131,7 +131,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: docker.io/bitnami/postgresql:14.2.0-debian-10-r77
+          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.2.0-debian-10-r77"
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1000
@@ -219,14 +219,14 @@ spec:
     spec:
       initContainers:
         - name: postgresql-isready
-          image: bitnami/postgresql:14.5.0
+          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.5.0"
           command:
             - "sh"
             - "-c"
             - until pg_isready -h dsmr-reader-postgresql-hl -U dsmrreader ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
-          image: "xirixiz/dsmr-reader-docker:amd64-5.9.0-2022.11.03"
+          image: "harbor.k8s.lan/dockerhub-proxy/xirixiz/dsmr-reader-docker:amd64-5.9.0-2022.11.03"
           resources: {}
           ports:
             - containerPort: 80
