@@ -226,7 +226,7 @@ spec:
             - until pg_isready -h dsmr-reader-postgresql-hl -U dsmrreader ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
-          image: "harbor.k8s.lan/dockerhub-proxy/xirixiz/dsmr-reader-docker:amd64-5.9.0-2022.11.03"
+          image: "harbor.k8s.lan/dockerhub-proxy/xirixiz/dsmr-reader-docker:latest"
           resources: {}
           ports:
             - containerPort: 80
