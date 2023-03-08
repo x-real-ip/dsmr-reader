@@ -144,8 +144,6 @@ spec:
     spec:
       serviceAccountName: default
       affinity:
-        nodeAffinity:
-        podAffinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
