@@ -143,17 +143,6 @@ spec:
         app: dsmr-reader-postgresql
     spec:
       serviceAccountName: default
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: dsmr-reader-postgresql
-                namespaces:
-                  - home-automation
-                topologyKey: kubernetes.io/hostname
-              weight: 1
       securityContext:
         fsGroup: 1000
       containers:
