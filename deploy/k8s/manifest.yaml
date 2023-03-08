@@ -249,7 +249,7 @@ spec:
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
-                configMapRef:
+                configMapKeyRef:
                   name: dsmr-reader-postgresql-env
                   key: POSTGRESQL_USERNAME
           command:
