@@ -147,7 +147,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: postgresql
-          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.2.0-debian-10-r77"
+          image: "harbor.k8s.lan/proxy-cache-dockerhub/bitnami/postgresql:14.2.0-debian-10-r77"
           securityContext:
             runAsUser: 1000
           envFrom:
@@ -234,7 +234,7 @@ spec:
     spec:
       initContainers:
         - name: postgresql-isready
-          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.5.0"
+          image: "harbor.k8s.lan/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
@@ -247,7 +247,7 @@ spec:
             - until pg_isready -h dsmr-reader-postgresql-hl -U ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
-          image: "harbor.k8s.lan/dockerhub-proxy/xirixiz/dsmr-reader-docker:latest"
+          image: "harbor.k8s.lan/proxy-cache-dockerhub/xirixiz/dsmr-reader-docker:latest"
           resources: {}
           ports:
             - containerPort: 80
